@@ -10,7 +10,7 @@ namespace Calabonga.Module1.Core
         /// <summary>
         /// Current service name
         /// </summary>
-        public const string ServiceName = "Module";
+        public const string ServiceName = "Configuration";
 
         /// <summary>
         /// "SystemAdministrator"

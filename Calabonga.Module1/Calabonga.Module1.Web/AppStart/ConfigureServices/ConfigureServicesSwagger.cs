@@ -33,7 +33,7 @@ namespace Calabonga.Module1.Web.AppStart.ConfigureServices
                 {
                     Title = AppTitle,
                     Version = AppVersion,
-                    Description = "Microservice API module API documentation. This template based on ASP.NET Core 3.1."
+                    Description = "(Configuration) Microservice API module API documentation. This template based on ASP.NET Core 3.1."
                 });
                 options.ResolveConflictingActions(x => x.First());
 

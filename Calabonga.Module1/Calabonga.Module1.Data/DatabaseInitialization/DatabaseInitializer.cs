@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 
 namespace Calabonga.Module1.Data.DatabaseInitialization
@@ -15,7 +16,7 @@ namespace Calabonga.Module1.Data.DatabaseInitialization
 
             // Should be uncomment when using UseSqlServer() settings or any other provider.
             // This is should not be used when UseInMemoryDatabase()
-            // context.Database.Migrate();
+            await context.Database.MigrateAsync();
 
             // TODO: Add your seed data here
 

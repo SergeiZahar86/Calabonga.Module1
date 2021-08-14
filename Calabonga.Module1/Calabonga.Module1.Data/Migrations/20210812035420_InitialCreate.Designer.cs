@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Calabonga.Module1.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210811132459_InitialCreate")]
+    [Migration("20210812035420_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

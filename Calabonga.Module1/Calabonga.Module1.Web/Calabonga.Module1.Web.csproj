@@ -25,6 +25,10 @@
     <PackageReference Include="Calabonga.UnitOfWork" Version="1.0.7" />
     <PackageReference Include="Calabonga.UnitOfWork.Controllers" Version="1.2.1" />
     <PackageReference Include="FluentValidation" Version="10.3.0" />
+    <PackageReference Include="MassTransit" Version="7.2.2" />
+    <PackageReference Include="MassTransit.AspNetCore" Version="7.2.2" />
+    <PackageReference Include="MassTransit.Extensions.DependencyInjection" Version="7.2.2" />
+    <PackageReference Include="MassTransit.RabbitMQ" Version="7.2.2" />
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="10.3.0" />
     <PackageReference Include="GitInfo" Version="2.1.2">
       <PrivateAssets>all</PrivateAssets>
@@ -49,5 +53,7 @@
     <ProjectReference Include="..\Calabonga.Module1.Data\Calabonga.Module1.Data.csproj" />
     <ProjectReference Include="..\Calabonga.Module1.Entities\Calabonga.Module1.Entities.csproj" />
   </ItemGroup>
+
+  <ProjectExtensions><VisualStudio><UserProperties properties_4launchsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
 
 </Project>

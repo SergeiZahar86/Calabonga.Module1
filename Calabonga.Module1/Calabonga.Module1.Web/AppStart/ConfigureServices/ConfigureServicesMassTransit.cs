@@ -1,4 +1,6 @@
-﻿using Calabonga.Microservices.Core.Exceptions;
+﻿using Calabonga.Contracts;
+using Calabonga.Microservices.Core.Exceptions;
+using Calabonga.Module1.Web.MassTransit;
 using MassTransit;
 using MassTransit.Definition;
 using Microsoft.Extensions.Configuration;
@@ -41,6 +43,10 @@ namespace Calabonga.Module1.Web.AppStart.ConfigureServices
                     cfg.UseRawJsonSerializer();
                     cfg.UseHealthCheck(context);
                     cfg.ConfigureEndpoints(context, SnakeCaseEndpointNameFormatter.Instance);
+                    cfg.ReceiveEndpoint(Constants.NotificationQueueNameConfiguration, e =>
+                    {
+                        e.Consumer<ApplicationUserCreatedConsumer>();
+                    });
                 });
             });
 

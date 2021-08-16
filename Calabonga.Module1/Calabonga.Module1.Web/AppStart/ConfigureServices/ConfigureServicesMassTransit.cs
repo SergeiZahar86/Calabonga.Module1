@@ -44,12 +44,20 @@ namespace Calabonga.Module1.Web.AppStart.ConfigureServices
                     cfg.UseHealthCheck(context);
                     cfg.ConfigureEndpoints(context, SnakeCaseEndpointNameFormatter.Instance);
 
-                    // регистрация класса подписчика
-                    cfg.ReceiveEndpoint(Constants.NotificationQueueNameConfiguration, e =>
+                    // регистрация класса подписчика без конструктора
+                    /*cfg.ReceiveEndpoint(Constants.NotificationQueueNameConfiguration, e =>
                     {
                         e.Consumer<ApplicationUserCreatedConsumer>();
-                    });
+                    });*/
+                    /*cfg.ReceiveEndpoint(Constants.NotificationQueueNameConfiguration, e =>
+                    {
+                        e.Consumer<ApplicationUserProfilerRequestConsumer>();
+                    });*/
                 });
+
+                // регистрация классов подписчиков c конструктором
+                x.AddConsumer<ApplicationUserCreatedConsumer>(typeof(ApplicationUserCreatedConsumerDefinition));
+                //x.AddConsumer<ApplicationUserProfilerRequestConsumer>();
             });
 
             services.AddMassTransitHostedService();

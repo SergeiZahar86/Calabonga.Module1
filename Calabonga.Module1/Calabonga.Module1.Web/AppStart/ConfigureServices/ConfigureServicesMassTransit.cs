@@ -57,7 +57,7 @@ namespace Calabonga.Module1.Web.AppStart.ConfigureServices
 
                 // регистрация классов подписчиков c конструктором
                 x.AddConsumer<ApplicationUserCreatedConsumer>(typeof(ApplicationUserCreatedConsumerDefinition));
-                //x.AddConsumer<ApplicationUserProfilerRequestConsumer>();
+                x.AddConsumer<ApplicationUserProfilerRequestConsumer>();
             });
 
             services.AddMassTransitHostedService();

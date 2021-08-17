@@ -1,5 +1,6 @@
 ﻿using Calabonga.Contracts;
 using MassTransit;
+using System;
 using System.Threading.Tasks;
 
 namespace Calabonga.Module1.Web.MassTransit
@@ -9,13 +10,14 @@ namespace Calabonga.Module1.Web.MassTransit
     {
         public async Task Consume(ConsumeContext<IApplicationUserProfileRequest> context)
         {
-            var request = context.Message;
-            var data = new ApplicationUserProfileResponse()
+            IApplicationUserProfileRequest request = context.Message;
+            Guid fff = request.Id;
+            var data = new ApplicationUserProfileResponse
             {
-                Id = request.Id,
                 PetName = "Pussy",
                 FavoriteColor = "Magenta",
-                Skills = "NET, Core, Blazor, MVC, Silverlight"
+                Skills = "NET, Core, Blazor, MVC, Silverlight",
+                Id = request.Id
             };
             await context.RespondAsync(data);
 

@@ -15,7 +15,9 @@ namespace Calabonga.Module1.Web.AppStart.ConfigureServices
         /// </summary>
         /// <param name="services"></param>
         /// <param name="configuration"></param>
-        public static void ConfigureServices(IServiceCollection services, IConfiguration configuration)
+        public static void ConfigureServices(
+            IServiceCollection services,
+            IConfiguration configuration)
         {
             var massTransitSection = configuration.GetSection("MassTransit");
             var url = massTransitSection.GetValue<string>("Url");
@@ -24,39 +26,63 @@ namespace Calabonga.Module1.Web.AppStart.ConfigureServices
             var password = massTransitSection.GetValue<string>("Password");
             if (massTransitSection == null || url == null || host == null)
             {
-                throw new MicroserviceArgumentNullException("Section 'mass-transit' configuration settings are not found in appSettings.json");
+                throw new MicroserviceArgumentNullException("Section 'mass-transit'" +
+                    " configuration settings are not found in appSettings.json");
             }
 
             services.AddMassTransit(x =>
             {
-                x.SetSnakeCaseEndpointNameFormatter();
+                //x.SetSnakeCaseEndpointNameFormatter();
 
-                x.UsingRabbitMq((context, cfg) =>
+                //x.UsingRabbitMq((context, cfg) =>
+                //{
+                //    cfg.Host($"rabbitmq://{url}/{host}", configurator =>
+                //    {
+                //        configurator.Username(userName);
+                //        configurator.Password(password);
+                //    });
+
+                //    cfg.ClearMessageDeserializers();
+                //    cfg.UseRawJsonSerializer();
+                //    //cfg.UseHealthCheck(context);
+                //    cfg.ConfigureEndpoints(context, SnakeCaseEndpointNameFormatter.Instance);
+
+                //    // регистрация класса подписчика без конструктора
+                //    /*cfg.ReceiveEndpoint(Constants.NotificationQueueNameConfiguration, e =>
+                //    {
+                //        e.Consumer<ApplicationUserCreatedConsumer>();
+                //    });*/
+                //    //cfg.ReceiveEndpoint("NotificationQueueNameConfiguration1", e =>
+                //    //{
+                //    //    e.Consumer<ApplicationUserProfilerRequestConsumer>();
+                //    //});
+                //});
+
+
+                x.AddBus(busFactory =>
                 {
-                    cfg.Host($"rabbitmq://{url}/{host}", configurator =>
+                    var bus = Bus.Factory.CreateUsingRabbitMq(cfg =>
                     {
-                        configurator.Username(userName);
-                        configurator.Password(password);
+                        cfg.Host($"rabbitmq://{url}/{host}", configurator =>
+                        {
+                            configurator.Username(userName);
+                            configurator.Password(password);
+                        });
+
+                        cfg.ConfigureEndpoints(busFactory, KebabCaseEndpointNameFormatter.Instance);
+                        cfg.UseJsonSerializer();
+                        cfg.UseHealthCheck(busFactory);
+
+
                     });
-
-                    cfg.ClearMessageDeserializers();
-                    cfg.UseRawJsonSerializer();
-                    cfg.UseHealthCheck(context);
-                    cfg.ConfigureEndpoints(context, SnakeCaseEndpointNameFormatter.Instance);
-
-                    // регистрация класса подписчика без конструктора
-                    /*cfg.ReceiveEndpoint(Constants.NotificationQueueNameConfiguration, e =>
-                    {
-                        e.Consumer<ApplicationUserCreatedConsumer>();
-                    });*/
-                    /*cfg.ReceiveEndpoint(Constants.NotificationQueueNameConfiguration, e =>
-                    {
-                        e.Consumer<ApplicationUserProfilerRequestConsumer>();
-                    });*/
+                    return bus;
                 });
+                
 
                 // регистрация классов подписчиков c конструктором
-                x.AddConsumer<ApplicationUserCreatedConsumer>(typeof(ApplicationUserCreatedConsumerDefinition));
+                x.AddConsumer<ApplicationUserCreatedConsumer>(
+                    typeof(ApplicationUserCreatedConsumerDefinition));
+
                 x.AddConsumer<ApplicationUserProfilerRequestConsumer>();
             });
 
